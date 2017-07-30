@@ -7,6 +7,13 @@ class UsersController {
         this.data = data;
     }
 
+    getProfile(req, res) {
+        if(!req.isAuthenticated()) {
+            return res.status(401).redirect("/unauthorized");
+        }
+        return res.render("auth/profile");
+    }
+
     getSignUpForm(req, res) {
         return res.render("auth/sign-up");
     }
@@ -16,6 +23,9 @@ class UsersController {
     }
 
     signOut(req, res) {
+        if(!req.isAuthenticated()) {
+            return res.status(401).redirect("/unauthorized");
+        }
         req.logout();
         return res.redirect("/");
     }
@@ -29,7 +39,7 @@ class UsersController {
                     return res.render("auth/sign-up", { issueMessage: "User already exists" });
                 } 
                 if (bodyUser.password != bodyUser["repeat-password"]) {
-                    res.render("auth/sign-up", { issueMessage: "Repeated password is not equal to the original one" });
+                    return res.render("auth/sign-up", { issueMessage: "Repeated password is not equal to the original one" });
                 }
                 this.data.users.getAll()
                     .then((currentDataLength) => {
@@ -51,6 +61,34 @@ class UsersController {
                         req.flash("error", err);
                     });
             });
+    }
+
+    modifyUser(req, res) {
+        if(!req.isAuthenticated()) {
+            return res.status(401).redirect("/unauthorized");
+        }
+        const bodyUser = req.body;
+        this.data.users.findByUsername(bodyUser.username)
+            .then((dbUser) => {
+                if (!dbUser) {
+                    return res.status(401).redirect("/unauthorized");
+                }
+                if (bodyUser.password != bodyUser["repeat-password"]) {
+                    return res.render("auth/profile", { issueMessage: "Repeated password is not equal to the original one" });
+                }
+                dbUser.password = bodyUser.password.trim().length == 0 ? 
+                    dbUser.password : 
+                    bodyUser.password;
+                dbUser.email = bodyUser.email.trim().length == 0 ?
+                    dbUser.email :
+                    bodyUser.email;
+                return this.data.users.updateById(dbUser);
+            }).then((dbUser) => {
+                return res.redirect("/auth/profile");
+            })
+            .catch((err) => {
+                req.flash("error", err);
+            }); 
     }
 }
 

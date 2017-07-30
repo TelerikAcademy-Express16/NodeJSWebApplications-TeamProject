@@ -1,0 +1,41 @@
+extends ../_shared/_master
+block body
+    div.row.main
+        div.panel-heading
+            div.panel-title.text-center
+                h1.title
+                    |"
+                    =user.username 
+                    |" Profile
+                hr
+        p.profile-name-card.text-danger
+            != issueMessage
+        div.main-login.main-center
+            form.form-horizontal(action='/auth/modify-user', method="POST")
+                div.form-group
+                    label.control-label(for="username")
+                        | Username
+                    div.input-group
+                        input.form-control(type="text", name="username", placeholder="Enter username", readonly="true", value=user.username)
+                
+                div.form-group
+                    label.control-label(for="password")
+                        | Change Password
+                    div.input-group
+                        input.form-control(type="password", name="password", placeholder="Enter password")
+                
+                div.form-group
+                    label.control-label(for="repeat-password")
+                        | Repeat Changed Password
+                    div.input-group
+                        input.form-control(type="password", name="repeat-password", placeholder="Repeat password")
+
+                div.form-group
+                    label.control-label(for="email")
+                        | Email
+                    div.input-group
+                        input.form-control(type="email", name="email", placeholder="Enter email", value=user.email)
+
+                div.form-group
+                    button.btn.btn-primary.btn-lg.btn-block.login-button(type="submit")
+                        | Update Profile
