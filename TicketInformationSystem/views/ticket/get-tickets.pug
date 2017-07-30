@@ -1,0 +1,32 @@
+extends ../_shared/_master
+block body
+    table.table.table-hover
+        thead
+            tr 
+                th
+                    | Open
+                th
+                    | Group
+                th
+                    | Fixer Name
+                th
+                    | Title
+                th
+                    | Status
+                th
+                    | Create Date
+                th
+                    | Last Change Date
+        tbody
+            each ticket in tickets
+                tr
+                    td
+                        a(href="/ticket/get-ticket?id=" + ticket._id)
+                            | Open
+                    td= ticket.ticketGroup
+                    td= ticket.ticketFixerName
+                    td= ticket.ticketTitle
+                    td= ticket.ticketStatus
+                    td= ticket.ticketCreateDate
+                    td= ticket.ticketLastChangeDate
+        

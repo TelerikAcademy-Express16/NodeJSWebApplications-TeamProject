@@ -1,3 +1,5 @@
+"use strict"
+
 const { Router } = require("express");
 const passport = require("passport");
 
@@ -35,7 +37,3 @@ const attachTo = (app, data) => {
 };
 
 module.exports = { attachTo };
-
-// Questions
-// how to choose category
-// where and how to update the category

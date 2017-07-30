@@ -1,0 +1,27 @@
+extends ../_shared/_master
+block body
+    a.btn.btn-primary(href="/ticket/get-tickets")
+        | Back
+    != issueMessage
+    if ticket
+        h3
+            | Group: 
+            =ticket.ticketGroup
+        h3
+            | Title: 
+            =ticket.ticketTitle
+        strong
+            | Status:
+            =ticket.ticketStatus
+        p
+            | Description:
+            =ticket.ticketDescription
+        em 
+            | Create Date: 
+            strong 
+                =ticket.ticketCreateDate
+        br
+        em 
+            | Last Change Date: 
+            strong
+                =ticket.ticketLastChangeDate
