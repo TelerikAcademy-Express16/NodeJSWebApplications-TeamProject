@@ -1,0 +1,36 @@
+nav[class="navbar navbar-inverse"] {
+    border-radius: 0;
+}
+
+ul.dropdown-menu li a,
+ul.dropdown-menu li input[type="submit"] {
+    padding-top: 7px;
+    height: 35px;
+    border: none;
+    border-radius: 0;
+}
+
+    ul.dropdown-menu li a:hover,
+    ul.dropdown-menu li input[type="submit"]:hover {
+        background-color: #e6e6e6;
+    }
+
+.form-control {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+img.profile-img-card {
+    display: block;
+    margin: auto;
+}
+
+[class="main-login main-center"] .form-group * {
+    margin: 0 auto;
+}
+
+[class="main-login main-center"] .form-group label,
+[class="main-login main-center"] .login-register a {
+    display: block;
+    text-align: center;
+}

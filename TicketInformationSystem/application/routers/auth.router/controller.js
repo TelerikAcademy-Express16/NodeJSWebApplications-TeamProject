@@ -1,3 +1,5 @@
+"use strict"
+
 class TodosController {
     constructor(data) {
         this.data = data;

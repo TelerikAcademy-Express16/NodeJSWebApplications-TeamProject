@@ -4,12 +4,15 @@ include _nav
 html(lang="en")
 head
     meta(charset="UTF-8")
-    title Document
-    link(rel="stylesheet", href="/libs/bootstrap/dist/css/bootstrap.min.css")
-    script(src='/libs/jquery/dist/jquery.js')
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title 
+        =title
+    link(rel="stylesheet", href="/static/libs/bootstrap/3.3.7/css/bootstrap.min.css")
+    script(src='/static/libs/jquery/1.12.4/jquery.js')
+    script(src='/static/libs/bootstrap/3.3.7/js/bootstrap.min.js')
     link(rel="stylesheet", href="/static/css/main.css")
     block head
 body
     +nav()
-    .container
+    div.container
         block body

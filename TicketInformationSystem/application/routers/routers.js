@@ -5,7 +5,14 @@ const path = require("path");
 
 const attachTo = (app, data) => {
     app.get("/", (req, res) => {
+        // if(!req.isAuthenticated()) {
+        //     return res.status(401).redirect('/unauthorized');
+        // }
         return res.render("home");
+    });
+
+    app.get("/unauthorized", (req, res) => {
+        return res.render("unauthorized/index");
     });
 
     fs.readdirSync(__dirname)
