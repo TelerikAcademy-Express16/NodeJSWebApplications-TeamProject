@@ -10,11 +10,18 @@ const config = require("../../config");
 const applyTo = (app, data) => {
     passport.use(new Strategy((username, password, done) => {
         data.users.checkPassword(username, password)
-            .then(() => {
-                return data.users.findByUsername(username);
+            .then((returnData) => {
+                if (returnData.status) {
+                    return data.users.findByUsername(username);
+                }
+                return "Please try again";
             })
             .then((user) => {
-                done(null, user);
+                if (typeof user == "string") {
+                    done(null, false, { issueMessage: user });
+                } else {
+                    done(null, user);
+                }
             })
             .catch((err) => {
                 done(err);
@@ -25,7 +32,7 @@ const applyTo = (app, data) => {
         store: new MongoStore({ url: config.connectionString }),
         secret: config.sessionSecret,
         resave: true,
-        saveUninitialized: true,
+        saveUninitialized: true
     }));
 
     app.use(passport.initialize());

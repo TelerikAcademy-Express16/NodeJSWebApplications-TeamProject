@@ -18,14 +18,14 @@ class UsersData extends BaseData {
         return this.findByUsername(username)
             .then((user) => {
                 if (!user) {
-                    throw new Error("Invalid user");
+                    return { status: false, issueMessage: "Invalid user" };
                 }
 
                 if (user.password !== password) {
-                    throw new Error("Invalid password");
+                    return { status: false, issueMessage: "Invalid password" };
                 }
 
-                return true;
+                return { status: true };
             });
     }
 }

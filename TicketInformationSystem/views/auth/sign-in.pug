@@ -2,8 +2,8 @@ extends ../_shared/_master
 block body
     div.card.card-container
         img.profile-img-card(src="//ssl.gstatic.com/accounts/ui/avatar_2x.png")
-        p.profile-name-card
-        != messages()
+        p.profile-name-card.text-danger
+            != issueMessage
         form.form-signin(action='/auth/sign-in', method="POST")
             input.form-control(type="text", name="username", placeholder="Enter username", required="true")
             input.form-control(type="password", name="password", placeholder="Enter password", required="true")
