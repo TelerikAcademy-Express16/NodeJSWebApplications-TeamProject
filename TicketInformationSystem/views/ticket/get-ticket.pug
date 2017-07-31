@@ -6,22 +6,22 @@ block body
     if ticket
         h3
             | Group: 
-            =ticket.ticketGroup
+            =ticket.group
         h3
             | Title: 
-            =ticket.ticketTitle
+            =ticket.title
         strong
             | Status:
-            =ticket.ticketStatus
+            =ticket.status
         p
             | Description:
-            =ticket.ticketDescription
+            =ticket.description
         em 
             | Create Date: 
             strong 
-                =ticket.ticketCreateDate
+                =ticket.createDate
         br
         em 
             | Last Change Date: 
             strong
-                =ticket.ticketLastChangeDate
+                =ticket.lastChangeDate

@@ -13,6 +13,12 @@ const attachTo = (app, data) => {
         })
         .get("/get-tickets", (req, res) => {
             return controller.getTickets(req, res);
+        })
+        .get("/merge-ticket", (req, res) => {
+            return controller.getMergeTicket(req, res);
+        })
+        .post("/merge-ticket", (req, res) => {
+            return controller.mergeTicket(req, res);
         });
 
     app.use("/ticket", router);

@@ -61,6 +61,23 @@ class BaseMongoDbData {
             });
     }
 
+    merge(model) {
+        model.lastChangeDate = new Date();
+        if (model._id) {
+            return this.collection.updateOne({
+                _id: model._id,
+            }, model)
+                .then(() => {
+                    return model;
+                });
+        }
+        model.createDate = new Date();
+        return this.collection.insert(model)
+            .then(() => {
+                return model;
+            });
+    }
+
     updateById(model) {
         return this.collection.updateOne({
             _id: model._id,

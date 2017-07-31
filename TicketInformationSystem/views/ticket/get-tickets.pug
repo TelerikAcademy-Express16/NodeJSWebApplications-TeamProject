@@ -1,5 +1,9 @@
 extends ../_shared/_master
 block body
+    if authorizedUser
+        a(href="/ticket/merge-ticket")
+            | Add Ticket
+
     table.table.table-hover
         thead
             tr 
@@ -23,10 +27,10 @@ block body
                     td
                         a(href="/ticket/get-ticket?id=" + ticket._id)
                             | Open
-                    td= ticket.ticketGroup
-                    td= ticket.ticketFixerName
-                    td= ticket.ticketTitle
-                    td= ticket.ticketStatus
-                    td= ticket.ticketCreateDate
-                    td= ticket.ticketLastChangeDate
+                    td= ticket.group
+                    td= ticket.ticketFixer
+                    td= ticket.title
+                    td= ticket.status
+                    td= ticket.createDate
+                    td= ticket.lastChangeDate
         

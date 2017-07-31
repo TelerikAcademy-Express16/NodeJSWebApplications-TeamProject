@@ -1,0 +1,74 @@
+extends ../_shared/_master
+block body
+    div.row.main
+        div.panel-heading
+            div.panel-title.text-center
+                h1.title
+                    | Merge Ticket
+                hr
+        p.profile-name-card.text-danger
+            != issueMessage
+        div.main-login.main-center
+            form.form-horizontal(action='/ticket/merge-ticket', method="POST")
+                div.form-group
+                    label.control-label(for="group")
+                        | Group:
+                    div.input-group
+                        select(name="group")
+                            each option in groups
+                                option(value=option)
+                                    != option
+                div.form-group
+                    label.control-label(for="ticketFixer")
+                        | Ticket Fixer:
+                    div.input-group
+                        if ticket
+                            input.form-control(type="text", name="ticketFixer", placeholder="Enter ticket fixer", value=ticket.ticketFixer)
+                        else
+                            input.form-control(type="text", name="ticketFixer", readonly="true")
+                div.form-group
+                    label.control-label(for="title")
+                        | Title:
+                    div.input-group
+                        if ticket
+                            input.form-control(type="text", name="title", placeholder="Enter title", value=ticket.title)
+                        else
+                            input.form-control(type="text", name="title", placeholder="Enter title", required="true")
+                div.form-group
+                    label.control-label(for="status")
+                        | Status:
+                    div.input-group
+                        if ticket
+                            select(name="status")
+                                each option in statuses
+                                    option(value=option)
+                                        != option
+                        else
+                            input.form-control(type="text", name="status", value="Open", readonly="true")
+                div.form-group
+                    label.control-label(for="description")
+                        | Description:
+                    div.input-group
+                        if ticket
+                            textarea.form-control(name="description", value=ticket.description)
+                        else
+                            textarea.form-control(name="description")
+                div.form-group
+                    label.control-label(for="lastChangeDate")
+                        | Last Change Date:
+                    div.input-group
+                        if ticket
+                            input.form-control(type="text", name="lastChangeDate", value=ticket.lastChangeDate, readonly="true")
+                        else
+                            input.form-control(type="text", name="lastChangeDate", readonly="true")
+                div.form-group
+                    label.control-label(for="createDate")
+                        | Create Date:
+                    div.input-group
+                        if ticket
+                            input.form-control(type="text", name="createDate", value=ticket.createDate, readonly="true")
+                        else
+                            input.form-control(type="text", name="createDate", readonly="true")
+                div.form-group
+                    button.btn.btn-primary.btn-lg.btn-block.login-button(type="submit")
+                        | Update Ticket
