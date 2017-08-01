@@ -1,4 +1,7 @@
 extends ../_shared/_master
+block head
+    script(src='/static/js/tickets.js')
+
 block body
     if authorizedUser
         a(href="/ticket/merge-ticket")
