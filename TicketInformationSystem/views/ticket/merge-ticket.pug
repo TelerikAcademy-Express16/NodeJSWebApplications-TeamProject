@@ -11,6 +11,14 @@ block body
         div.main-login.main-center
             form.form-horizontal(action='/ticket/merge-ticket', method="POST")
                 div.form-group
+                    label.control-label(for="_id")
+                        | Ticket Id:
+                    div.input-group
+                        if ticket
+                            input.form-control(type="text", name="_id", value=ticket._id, readonly="true")
+                        else
+                            input.form-control(type="text", name="_id", readonly="true")
+                div.form-group
                     label.control-label(for="group")
                         | Group:
                     div.input-group
@@ -39,10 +47,7 @@ block body
                         | Status:
                     div.input-group
                         if ticket
-                            select(name="status")
-                                each option in statuses
-                                    option(value=option)
-                                        != option
+                            input.form-control(type="text", name="status", value=ticket.status, readonly="true")
                         else
                             input.form-control(type="text", name="status", value="Open", readonly="true")
                 div.form-group
@@ -50,7 +55,7 @@ block body
                         | Description:
                     div.input-group
                         if ticket
-                            textarea.form-control(name="description", value=ticket.description)
+                            textarea.form-control(name="description")=ticket.description
                         else
                             textarea.form-control(name="description")
                 div.form-group
@@ -71,4 +76,20 @@ block body
                             input.form-control(type="text", name="createDate", readonly="true")
                 div.form-group
                     button.btn.btn-primary.btn-lg.btn-block.login-button(type="submit")
-                        | Update Ticket
+                        | Update 
+
+            if ticket
+                if nextStatus
+                    form.form-horizontal(action='/ticket/modify-status', method="POST")
+                        div.form-group.hidden
+                            label.control-label(for="_id")
+                                | Ticket Id:
+                            div.input-group
+                                input.form-control(type="text", name="_id", value=ticket._id, readonly="true")
+                        div.form-group.hidden
+                            label.control-label(for="status")
+                                | Status:
+                            div.input-group
+                                input.form-control(type="text", name="status", value=nextStatus, readonly="true")
+                        button.btn.btn-success.btn-lg.btn-block.login-button(type="submit")
+                            != nextStatus

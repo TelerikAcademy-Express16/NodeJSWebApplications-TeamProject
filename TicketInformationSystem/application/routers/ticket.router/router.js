@@ -19,6 +19,9 @@ const attachTo = (app, data) => {
         })
         .post("/merge-ticket", (req, res) => {
             return controller.mergeTicket(req, res);
+        })
+        .post("/modify-status", (req, res) => {
+            return controller.modifyStatus(req, res);
         });
 
     app.use("/ticket", router);

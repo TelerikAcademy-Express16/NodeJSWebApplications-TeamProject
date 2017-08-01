@@ -4,6 +4,8 @@ block body
         a(href="/ticket/merge-ticket")
             | Add Ticket
 
+    h2
+        | Open Tickets
     table.table.table-hover
         thead
             tr 
@@ -22,7 +24,39 @@ block body
                 th
                     | Last Change Date
         tbody
-            each ticket in tickets
+            each ticket in openTickets
+                tr
+                    td
+                        a(href="/ticket/get-ticket?id=" + ticket._id)
+                            | Open
+                    td= ticket.group
+                    td= ticket.ticketFixer
+                    td= ticket.title
+                    td= ticket.status
+                    td= ticket.createDate
+                    td= ticket.lastChangeDate
+
+    h2
+        | Started Tickets
+    table.table.table-hover
+        thead
+            tr 
+                th
+                    | Open
+                th
+                    | Group
+                th
+                    | Fixer Name
+                th
+                    | Title
+                th
+                    | Status
+                th
+                    | Create Date
+                th
+                    | Last Change Date
+        tbody
+            each ticket in startedTickets
                 tr
                     td
                         a(href="/ticket/get-ticket?id=" + ticket._id)
@@ -34,3 +68,34 @@ block body
                     td= ticket.createDate
                     td= ticket.lastChangeDate
         
+    h2
+        | Resolved Tickets
+    table.table.table-hover
+        thead
+            tr 
+                th
+                    | Open
+                th
+                    | Group
+                th
+                    | Fixer Name
+                th
+                    | Title
+                th
+                    | Status
+                th
+                    | Create Date
+                th
+                    | Last Change Date
+        tbody
+            each ticket in resolvedTickets
+                tr
+                    td
+                        a(href="/ticket/get-ticket?id=" + ticket._id)
+                            | Open
+                    td= ticket.group
+                    td= ticket.ticketFixer
+                    td= ticket.title
+                    td= ticket.status
+                    td= ticket.createDate
+                    td= ticket.lastChangeDate

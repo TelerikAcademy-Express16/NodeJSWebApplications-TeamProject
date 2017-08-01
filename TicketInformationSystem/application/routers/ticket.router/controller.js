@@ -21,10 +21,11 @@ class TicketController {
                     return res.render("ticket/get-ticket", { issueMessage: "Ticket doesn`t exist" });
                 }
                 if (req.isAuthenticated()) {
+                    let nextStatus = configFile.statuses[configFile.statuses.indexOf(dbTicket.status) + 1];
                     return res.render("ticket/merge-ticket", { 
                         ticket: dbTicket,
-                        statuses: configFile.statuses,
-                        groups: ["First", "Second"] 
+                        nextStatus: nextStatus,
+                        groups: configFile.groups 
                     });
                 } else {
                     return res.render("ticket/get-ticket", { ticket: dbTicket });
@@ -39,17 +40,26 @@ class TicketController {
         if(req.isAuthenticated()) {
             authUser = {};
         }
-        this.data.tickets.getAll()
-            .then((dbTickets) => {
-                // for (var ind in dbTickets) {
-                //     dbTickets[ind].ticketCreateDate = moment(dbTickets[ind].ticketCreateDate).format('L LTS');
-                //     dbTickets[ind].ticketLastChangeDate = moment(dbTickets[ind].ticketLastChangeDate).format('L LTS');
-                // }
-
-                return res.render("ticket/get-tickets", { tickets: dbTickets, authorizedUser: authUser });
-            }).catch((err) => {
-                req.flash("error", err);
+        this.data.tickets.filterBy({
+            status: "Open"
+        }).then((dbOpenTickets) => {
+            this.data.tickets.filterBy({
+                status: "Started"
+            }).then((dbStartedTickets) => {
+                this.data.tickets.filterBy({
+                    status: "Resolved"
+                }).then((dbResolvedTickets) => {             
+                    return res.render("ticket/get-tickets", { 
+                        openTickets: dbOpenTickets, 
+                        startedTickets: dbStartedTickets,
+                        resolvedTickets: dbResolvedTickets,
+                        authorizedUser: authUser 
+                    });
+                });
             });
+        }).catch((err) => {
+            req.flash("error", err);
+        });
     }
 
     getMergeTicket(req, res) {
@@ -60,10 +70,11 @@ class TicketController {
         if (currentId) {
             return this.data.tickets.findById(currentId)
                 .then((dbTicket) => {
+                    let nextStatus = configFile.statuses[configFile.statuses.indexOf(dbTicket.status) + 1];
                     return res.render("ticket/merge-ticket", { 
                             ticket: dbTicket,
-                            statuses: configFile.statuses,
-                            groups: ["First", "Second"] 
+                            nextStatus: nextStatus,
+                            groups: configFile.groups 
                         });
                 }).catch((err) => {
                     req.flash("error", err);
@@ -71,7 +82,7 @@ class TicketController {
         }
         return res.render("ticket/merge-ticket", {
             statuses: configFile.statuses, 
-            groups: ["First", "Second"] 
+            groups: configFile.groups 
         });
     }
 
@@ -80,10 +91,26 @@ class TicketController {
             return res.status(401).redirect("/unauthorized");
         }
         const bodyUser = req.body;
-        console.log(bodyUser);
         return this.data.tickets.merge(bodyUser)
             .then(() => {
-                return res.render("ticket/get-tickets");
+                return this.getTickets(req, res);
+            }).catch((err) => {
+                req.flash("error", err);
+            });
+    }
+
+    modifyStatus(req, res) {
+        if(!req.isAuthenticated()) {
+            return res.status(401).redirect("/unauthorized");
+        }
+        const bodyUser = req.body;
+        return this.data.tickets.findById(bodyUser._id)
+            .then((dbTicket) => {
+                dbTicket.status = bodyUser.status;
+                return this.data.tickets.merge(dbTicket)
+                    .then(() => {
+                        return this.getTickets(req, res);
+                    });
             });
     }
 }
